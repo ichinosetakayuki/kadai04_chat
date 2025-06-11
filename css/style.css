@@ -1,0 +1,322 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  /* display: flex;
+  gap: 20px; */
+  max-width: 800px;
+  width: calc(100% - 60px);
+  margin: 10px auto 0;
+}
+
+h1 {
+  /* vertical-align: baseline; */
+  line-height: 1.2;
+  /* display: inline-block; */
+}
+
+.ttl1 {
+  font-size: 36px;
+  text-shadow: 1px 2px 1px lightslategray;
+  color: lightseagreen;
+}
+
+.ttl2 {
+  font-size: 30px;
+  /* text-shadow: 1px 1px 2px lightpink; */
+  text-shadow: 1px 2px 1px lightslategray;
+  color: lightseagreen;
+}
+
+.ttl3 {
+  margin-left: 20px;
+  font-size: 18px;
+  /* font-weight: bold; */
+  color: rgb(255, 0, 162);
+  text-shadow: 1px 1px 2px rgb(70, 12, 21);
+}
+
+.input_area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+}
+
+#output {
+  flex: 1;
+  height: 400px;
+  background: lightblue;
+  /* margin: 0 auto; */
+  overflow: auto;
+  /* display: flex;
+  flex-direction: column; */
+  padding: 12px;
+  margin-top: 10px;
+  border: 2px solid lightsteelblue;
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 2px lightseagreen;
+}
+
+#userName {
+  flex: 1;
+  width: auto;
+  height: 36px;
+}
+
+.icon_and_name {
+  display: flex;
+  gap: 10px;
+}
+
+.selected_icon,
+.icon_list {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+#iconList {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  background: #fff;
+  border: 2px solid lightgray;
+  padding: 4px;
+}
+
+.icon_list {
+  vertical-align: middle;
+}
+
+.icon_list:hover {
+  opacity: 0.8;
+}
+
+#text {
+  height: 40px;
+  width: 100%;
+}
+
+#send {
+  display: block;
+  margin-left: auto;
+  padding: 2px 4px;
+}
+
+.post {
+  /* background: lightgray; */
+  width: 40%;
+  text-wrap: wrap;
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.my_post {
+  margin-left: 60%;
+  /* display: flex; */
+  /* align-self: flex-end; */
+  /* justify-self: flex-end; */
+}
+
+.my_post .msg_name {
+  font-size: 0.5em;
+  /* background: lightgreen; */
+  width: fit-content;
+  padding: 0 2px;
+}
+
+.other_post .msg_name {
+  font-size: 0.5em;
+  /* background: lightgoldenrodyellow; */
+  width: fit-content;
+  padding: 0 2px;
+}
+
+.msg_wrapper {
+  position: relative;
+  display: flex;
+}
+
+.send_icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.my_post .msg_text {
+  font-size: 0.8em;
+  line-height: 1;
+  background: rgb(255, 199, 240);
+  box-shadow: 1px 1px 2px 1px rgb(179, 129, 137);
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+}
+
+.other_post .msg_text {
+  font-size: 0.8em;
+  line-height: 1;
+  background: lightgoldenrodyellow;
+  box-shadow: 1px 1px 2px 1px rgb(184, 184, 154);
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+
+}
+
+.time {
+  font-size: 0.5em;
+  padding-left: 20px;
+}
+
+/* メッセージの削除更新メニュー */
+.menu_wrapper {
+  position: absolute;
+  top: 0;
+  right: -20px;
+}
+
+.other_post .menu_wrapper {
+  display: none;
+}
+
+.menu_icon {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 12px;
+  opacity: 0.3;
+}
+
+.menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  display: none;
+  padding: 4px 4px;
+  margin: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.menu li {
+  font-size: 0.8em;
+  padding: 4px 0px;
+  cursor: pointer;
+}
+
+.menu li:hover {
+  background: #eee;
+}
+
+#moritakaOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: fadeIn 1s ease;
+}
+
+.overlay_content {
+  text-align: center;
+  color: #fff;
+  animation: zoomIn 1s ease;
+  position: relative;
+}
+
+.moritaka_img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.moritaka_msg {
+  font-size: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  width: 100%;
+}
+
+.msg01,
+.msg02 {
+  font-size: 50px;
+  color: red;
+  font-weight: bold;
+  text-shadow: 0 2px 4px lightcyan;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.buttons {
+  display: flex;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 40px;
+}
+
+.btn {
+  color: #fff;
+  width: fit-content;
+  background: #000;
+  border: 2px solid lightslategray;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translate(2px,2px);
+}
