@@ -53,6 +53,8 @@ function chatDocuments(fireStoreDocs) {
 let moritakaInterval = null; //setInterval()をグローバル化
 let lastMoritakaOverlayPostIds = []; //最後にmortakaOverlayが発動した時の３つのidの配列
 
+// chatDocumentsを入力し、最新３投稿に森高ワードが含まれてるかチェックし、
+// 含まれていれば、moritakaOverlayを発動する関数
 function checkMoritakaAndShowOverlay(chatDocuments) {
   const sortedDocs = chatDocuments.slice().sort((a, b) => {
     return (b.data.time?.seconds || 0) - (a.data.time?.seconds || 0);
@@ -61,15 +63,12 @@ function checkMoritakaAndShowOverlay(chatDocuments) {
   const lastThreeIds = lastThree.map(doc => doc.id); //上記の配列から、idのみを取り出した配列を作る
   const allIncludeMoritaka = lastThree.every((doc) => {
     const text = doc.data.text;
-    return /(森高千里|moritaka|もりたか|森高|chisato|ちさと|千里)/i.test(text);
+    return /(森高千里|moritaka|もりたか|モリタカ|森高|chisato|ちさと|チサト|千里)/i.test(text);
   }); //大文字小文字も含め（iがその意味）森高ワードが３つの投稿すべてに含まれていたらtrueを返す
   const isSameAsLastOverlay = JSON.stringify(lastThreeIds) === JSON.stringify(lastMoritakaOverlayPostIds);
   // 最新の３投稿のid配列と最後にmoritakaOverlayが発動した時のid配列が同じであればtrueを返す
   // 同じ投稿でoverlayが２回発動しないようにするため
 
-  // console.log("lastThree Ids:", lastThreeIds.join(","));
-  // console.log("allIncludeMoritaka", allIncludeMoritaka);
-  // console.log("isSameAsLastOverlay",isSameAsLastOverlay);
 
   if (allIncludeMoritaka && !isSameAsLastOverlay) {
     lastMoritakaOverlayPostIds = lastThreeIds;
@@ -137,8 +136,7 @@ function chatElements(chatDocuments) {
     const alignClass = isMine ? "my_post" : "other_post"; //isMine:true→クラス名:my_post、false→other_post
     // 値が存在するかチェックしてから、secondsを読む
     const timeStamp = convertTimestampToDatetime(document.data.time?.seconds);
-
-
+    // 投稿の描画
     elements.push(`
       <div id="${document.id}" class="post ${alignClass}">
         <p class="msg_name">${document.data.name}</p>
@@ -177,7 +175,6 @@ onSnapshot(q, (querySnapshot) => {
 
   // ここは毎回同じ！！よくわからないデータをきれいな形にする
   const documents = chatDocuments(querySnapshot.docs);
-  // console.log(documents);
   // きれいな形に変換したデータを表示用タグにいれた状態に変換する
   const elements = chatElements(documents);
   // 画面にタグを表示する。
@@ -189,7 +186,7 @@ onSnapshot(q, (querySnapshot) => {
 });
 
 
-// yesボタンをクリックした時の森高投稿
+// moritakaOverlayのyesボタンをクリックした時の森高投稿
 $(document).on("click", "#yesBtn", function () {
   const moritakaReplyArray = [
     "ありがとう！これからもずっとよろしくね❤️",
@@ -210,7 +207,7 @@ $(document).on("click", "#yesBtn", function () {
   }, 6000);
 });
 
-// noボタンをクリックした時の森高投稿
+// moritakaOverlayのnoボタンをクリックした時の森高投稿
 $(document).on("click", "#noBtn", function () {
   const moritakaReplyArray = [
     "そっか、またライブに来てね！",
@@ -278,7 +275,6 @@ $(document).ready(function () {
 $("#selectedIcon").on("click", function () {
   $("#iconList").toggle();
 })
-
 
 // アイコンを選択すると、そのアイコンのURLを読み取り、アイコン枠のsrcに入れる。
 $(".icon_list").on("click", function () {
